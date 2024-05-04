@@ -1,0 +1,10 @@
+comandos para compilar assembly
+
+compila
+nasm -f elf64 <nome.asm>
+
+tranforma em exeutavel
+ld -s -o exec <nome.o>
+
+executa
+./exec
