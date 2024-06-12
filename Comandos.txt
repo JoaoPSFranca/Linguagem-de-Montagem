@@ -1,10 +1,14 @@
 comandos para compilar assembly
 
 compila
-nasm -f elf64 <nome.asm>
+nasm -f elf64 teste.asm
 
 tranforma em exeutavel
-ld -s -o exec <nome.o>
+ld -s -o exec teste.o
 
 executa
 ./exec
+
+je : se é igual
+jg : se é maior
+jl : se é menor

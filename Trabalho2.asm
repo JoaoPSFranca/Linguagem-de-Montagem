@@ -2,8 +2,7 @@ section .data
 	msg db "Primos: "
 	tmsg equ $ - msg
 	
-	espace db " "
-	tespace equ $ - espace
+	espace db " ", 0x0
 	
 section .bss
 	r resq 1
@@ -12,24 +11,17 @@ section .text
 
 global _start
 
-_start:
-	xor r8, r8
-	
+_start:	
 	mov rax, 4
 	mov rbx, 1
 	mov rcx, msg
 	mov rdx, tmsg
 	int 0x80
 		
-loop:
-	add r8, 1
-	
-	cmp r8, 10
-	je final
+	xor r8, r8
+	mov r8, 0x2
 
-	cmp r8, 2
-	je imprime
-	
+loop:
 	xor r9, r9
 	mov r9, 2
 	
@@ -37,20 +29,22 @@ loop_increment:
 	cmp r9, r8
 	je imprime
 
-	xor rdx, rdx	
+	xor rax, rax
 	mov rax, r8
+	
+	xor rdx, rdx	
 	div r9
 	
-	cmp rdx, 0
-	je loop
+	cmp rdx, 0x0
+	je continuarLoop
 
-	add r9, 1
+	add r9, 0x1
 	jmp loop_increment
 	
 imprime:
-	add r8, 48
-	mov [r], r8
-	sub r8, 48
+	mov rax, r8
+	add rax, 0x30
+	mov [r], al
 	
 	mov rax, 4
 	mov rbx, 1
@@ -61,10 +55,13 @@ imprime:
 	mov rax, 4
 	mov rbx, 1
 	mov rcx, espace
-	mov rdx, tespace
+	mov rdx, 1
 	int 0x80
 
-	jmp loop
+continuarLoop:
+	add r8, 0x1
+	cmp r8, 0xa
+	jle loop
 
 exit:
 	final:
